@@ -32,32 +32,34 @@ struct Interval
 #include <vector>
 using namespace std;
 
-vector<Interval> merge(vector<Interval> &A)
-{
+vector<Interval> merge(vector<Interval> &A) {
+  
+    vector<Interval> result ;    // The result vector 
+     Interval top = A[0];        // Top most interval in Hand
+     result.push_back(top);
+     int n = A.size();
 
-    vector<Interval> result;
-    Interval top = A[0];
-    result.push_back(top);
-    int n = A.size();
-    for (int i = 1; i < n; i++)
-    {
-        Interval curr = A[i];
-        if (top.end >= curr.start)
-        {
-            Interval temp;
+     for(int i = 1 ; i < n ; i ++){
+
+        Interval curr = A[i];    // Current Interval pointing
+
+        if(top.end>=curr.start){  // Merge Step
+            Interval temp;        // Temporary interval incase-merge
             result.pop_back();
-            if (curr.end >= top.end)
-                temp = Interval(top.start, curr.end);
-            else
-                temp = Interval(top.start, top.end);
+
+            if(curr.end>=top.end)
+               temp = Interval(top.start, curr.end);
+            else 
+               temp = Interval(top.start, top.end);
+               
             result.push_back(temp);
-            top = temp;
+            top = temp;            // Update new Temp
         }
-        if (top.end < curr.start)
-        {
+
+        if(top.end<curr.start){     // No merge required 
             result.push_back(curr);
-            top = curr;
+            top = curr;             // Update new Temp
         }
-    }
-    return result;
+     }
+     return result;    
 }
